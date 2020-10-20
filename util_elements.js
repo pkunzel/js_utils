@@ -38,32 +38,6 @@ function createCloneElement(element, cloneDescendants, newId){
  * @param {Array[String]} classes An Array of classes to be added to the element
  * @returns {HTMLElement} A plain resulting HTMLElement
  */
-function addMultipleClasses(element, classes){
-    if(classes){
-        classes.forEach(item => element.classList.add(item));
-    }
-
-    return element;
-}
-
-/**
- * @description Removes Multiple Classes from a valid Element
- * @param {HTMLElement} element The element to have the classes removed
- * @param {Array[String]} classes An Array of classes to be removed
- * @returns {HTMLElement} A plain resulting HTMLElement
- */
-function removeMultipleClasses(element, classes){
-    if(classes){
-        classes.forEach(item => element.classList.remove(item));
-    }
-}
-
-/**
- * @description Adds Multiple Classes to a valid Element
- * @param {HTMLElement} element The element to be set with classes
- * @param {Array[String]} classes An Array of classes to be added to the element
- * @returns {HTMLElement} A plain resulting HTMLElement
- */
 function addMultipleAttributes(element, attributes){
     if(attributes){
         attributes.forEach(item => element.setAttribute(item.name, item.value));
