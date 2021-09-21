@@ -8,7 +8,7 @@
 function createNewElement(type, classes, attributes){
     let element = document.createElement(type);
 
-    addMultipleClasses(element, classes);
+    element.classList.add(classes);
 
     addMultipleAttributes(element, attributes);
 

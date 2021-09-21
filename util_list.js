@@ -38,17 +38,6 @@ function setHTML(list, innerHTML) {
 }
 
 /**
- * @description Adds a class or list of classes to a multiple elements in an Array
- * @param {Array} list a list with HTMLElements
- * @param {string|Array} innerHTML a single class in a string or a list of classes
- */
-function addClasses(list, classList) {
-	list.forEach((element) => {
-		element.classList.add(classList);
-	});
-}
-
-/**
  * @description Removes a class or list of classes from multiple elements in an Array
  * @param {Array} list a list with HTMLElements
  * @param {string|Array} innerHTML a single class in a string or a list of classes
