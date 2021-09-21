@@ -22,7 +22,7 @@ function createNewElement(type, classes, attributes){
  * @param {String} newId (Optional) A new Id for the element. Deafults to none or old id + _1.
  * @returns {HTMLElement} A clone of HTMLElement.
  */
-function createCloneElement(element, cloneDescendants, newId){
+function cloneElement(element, cloneDescendants, newId){
     let newElement = element.cloneNode(cloneDescendants);
 
     if(newElement.id || newId){
