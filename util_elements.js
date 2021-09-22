@@ -42,8 +42,6 @@ function addMultipleAttributes(element, attributes){
     if(attributes){
         attributes.forEach(item => element.setAttribute(item.name, item.value));
     }
-
-    return element;
 }
 
 /**
