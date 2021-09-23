@@ -1,7 +1,7 @@
 /**
  * @description Create a new element with the information provided
  * @param {String} type The tag type (div, p, a, span, etc..)
- * @param {Array[String]} classes An Array of classes to be added to the element
+ * @param {Array[String]|String} classes An Array of classes to be added to the element
  * @param {Array[Object]} attributes An Array with objects containing the properties name and value. Both are Strings.
  * @returns {HTMLElement} A plain HTMLElement with the de data provided.
  */
@@ -35,7 +35,7 @@ function cloneElement(element, cloneDescendants, newId){
 /**
  * @description Adds Multiple Classes to a valid Element
  * @param {HTMLElement} element The element to be set with classes
- * @param {Array[String]} classes An Array of classes to be added to the element
+ * @param {Array[String]|String} classes An Array of classes to be added to the element
  * @returns {HTMLElement} A plain resulting HTMLElement
  */
 function addMultipleAttributes(element, attributes){
