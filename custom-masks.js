@@ -84,25 +84,29 @@ class ApplyMask {
 	};
 }
 
-const maskingActions = {
-	cpf: (element) => applyMaskingEvents(element, ApplyMask.toCPF),
-	cnpj: (element) => applyMaskingEvents(element, ApplyMask.toCNPJ),
-};
+class CustomMask {
+	constructor() {
+		const elementsToMask = Array.from(document.querySelectorAll("[data-custom-mask]"));
 
-function applyMaskingEvents(element, maskFunction) {
-	const elementStringContainer = element.value ? 'value' : 'textcontent';
-	setElementWithMask(elementStringContainer);
-	element.addEventListener("change", setElementWithMask);
-	element.addEventListener("keypress", setElementWithMask);
+		elementsToMask.forEach((element) => {
+			const customMaskType = element.getAttribute("data-custom-mask");
+			this.#maskingActions[customMaskType](element);
+		});
+	}
 
-	function setElementWithMask(elementStringContainer) {
-		element[elementStringContainer] = maskFunction(element[elementStringContainer]);
+	#maskingActions = {
+		cpf: (element) => applyMaskingEvents(element, ApplyMask.toCPF),
+		cnpj: (element) => applyMaskingEvents(element, ApplyMask.toCNPJ),
+	};
+
+	applyMaskingEvents(element, maskFunction) {
+		const elementStringContainer = element.value ? "value" : "textcontent";
+		setElementWithMask(elementStringContainer);
+		element.addEventListener("change", setElementWithMask);
+		element.addEventListener("keypress", setElementWithMask);
+
+		function setElementWithMask(elementStringContainer) {
+			element[elementStringContainer] = maskFunction(element[elementStringContainer]);
+		}
 	}
 }
-
-const elementsToMask = Array.from(document.querySelectorAll("[data-custom-mask]"));
-
-elementsToMask.forEach((element) => {
-	const customMaskType = element.getAttribute('data-custom-mask');
-	maskingActions[customMaskType](element);
-});
