@@ -1,46 +1,68 @@
 /**
- * @description Generates formated CPF string
- * @param {String} unformatedValue the unformated CPF
- * @returns A string with 000.000.000-00 formating
+ * @description Applies the CPF mask to a string. 000.000.000-00
+ * @param {String} unformatedValue An unformated string containing the full or partial CPF
+ * @returns The formatted CPF
  */
-function getFormatedCPF(unformatedValue) {
-    const onlyDigits = unformatedValue.toString().replace(/[^\d]/g, "").substring(0, 11);
-
-    if (onlyDigits.length > 9) return onlyDigits.replace(/(\d{3})(\d{3})(\d{3})/, "$1.$2.$3-");
-    if (onlyDigits.length > 6) return onlyDigits.replace(/(\d{3})(\d{3})/, "$1.$2.");
-    if (onlyDigits.length > 3) return onlyDigits.replace(/(\d{3})/, "$1.");
-
-    return onlyDigits;
-}
+const maskCPF = (unformatedValue) => {
+	return unformatedValue
+		.replace(/\D/g, "")
+		.replace(/(\d{3})(\d)/, "$1.$2")
+		.replace(/(\d{3})(\d)/, "$1.$2")
+		.replace(/(\d{3})(\d{1,2})/, "$1-$2")
+		.replace(/(-\d{2})\d+?$/, "$1");
+};
 
 /**
- * @description Generates formated CNPJ string
- * @param {String} unformatedValue the unformated CNPJ
- * @returns A string with 00.000.000/0000-00 formating
+ * @description Applies the CNPJ mask to a string. 00.000.000/0000-00
+ * @param {String} unformatedValue An unformated string containing the full or partial CNPJ
+ * @returns The formatted CNPJ
  */
-function getFormatedCNPJ(unformatedValue) {
-	const onlyDigits = unformatedValue.toString().replace(/[^\d]/g, "").substring(0, 14);
+const maskCNPJ = (unformatedValue) => {
+	return unformatedValue
+		.replace(/\D/g, "")
+		.replace(/(\d{2})(\d)/, "$1.$2")
+		.replace(/(\d{3})(\d)/, "$1.$2")
+		.replace(/(\d{3})(\d)/, "$1/$2")
+		.replace(/(\d{4})(\d{1,2})/, "$1-$2")
+		.replace(/(-\d{2})\d+?$/, "$1");
+};
 
-	if (onlyDigits.length > 12) return onlyDigits.replace(/(\d{2})(\d{3})(\d{3})(\d{4})/, "$1.$2.$3/$4-");
-	if (onlyDigits.length > 8) return onlyDigits.replace(/(\d{2})(\d{3})(\d{3})/, "$1.$2.$3/");
-	if (onlyDigits.length > 5) return onlyDigits.replace(/(\d{2})(\d{3})/, "$1.$2.");
-	if (onlyDigits.length > 2) return onlyDigits.replace(/(\d{2})/, "$1.");
+/**
+ * @description Applies the Phone mask to a string. (00)00000-0000
+ * @param {String} unformatedValue An unformated string containing the full or partial CPF
+ * @returns The formatted CPF
+ */
+const maskPhone = (unformatedValue) => {
+	return unformatedValue
+		.replace(/\D/g, "")
+		.replace(/(\d{2})(\d)/, "($1) $2")
+		.replace(/(\d{5})(\d{4})(\d)/, "$1-$2");
+};
 
-	return onlyDigits;
-}
+/**
+ * @description Applies the Phone mask to a string. 00000-000
+ * @param {String} unformatedValue An unformated string containing the full or partial CPF
+ * @returns The formatted CPF
+ */
+const maskCEP = (unformatedValue) => {
+	return unformatedValue.replace(/\D/g, "").replace(/^(\d{5})(\d{3})+?$/, "$1-$2");
+};
 
+// 00/00/0000
+const maskDate = (value) => {
+	return value
+		.replace(/\D/g, "")
+		.replace(/(\d{2})(\d)/, "$1/$2")
+		.replace(/(\d{2})(\d)/, "$1/$2")
+		.replace(/(\d{4})(\d)/, "$1");
+};
 
-// function getFormatedCPF(unformatedValue) {
-// 	const regexCode = /^(\d{3})(\d{1,3})?(\d{1,3})?(\d{1,2})?.*/;
-// 	const onlyDigits = unformatedValue.toString().replace(/[^\d]/g, "");
+// Aceita apenas que letras sejam digitadas
+const maskOnlyLetters = (value) => {
+	return value.replace(/[0-9!@#¨$%^&*)(+=._-]+/g, "");
+};
 
-// 	return onlyDigits.replace(regexCode, (_, firstSlice, secondSlice, thirdSlice, fourthSlice) =>
-// 		fourthSlice
-// 			? `${firstSlice}.${secondSlice}.${thirdSlice}-${fourthSlice}`
-// 			: thirdSlice
-// 			? `${firstSlice}.${secondSlice}.${thirdSlice}`
-// 			: secondSlice
-// 			? `${firstSlice}.${secondSlice}`
-// 			: firstSlice
-// 	);
-// }
+// Aceita apenas números
+const maskOnlyNumbers = (value) => {
+	return value.replace(/\D/g, "");
+};
