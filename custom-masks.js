@@ -7,7 +7,7 @@ class ApplyMask {
 	 * @param {String} unformatedValue An unformated string containing the full or partial CPF
 	 * @returns The formatted CPF
 	 */
-	toCPF = (unformatedValue) => {
+	static toCPF = (unformatedValue) => {
 		return unformatedValue
 			.replace(/\D/g, "")
 			.replace(/(\d{3})(\d)/, "$1.$2")
@@ -21,7 +21,7 @@ class ApplyMask {
 	 * @param {String} unformatedValue An unformated string containing the full or partial CNPJ
 	 * @returns The formatted CNPJ
 	 */
-	toCNPJ = (unformatedValue) => {
+	static toCNPJ = (unformatedValue) => {
 		return unformatedValue
 			.replace(/\D/g, "")
 			.replace(/(\d{2})(\d)/, "$1.$2")
@@ -36,7 +36,7 @@ class ApplyMask {
 	 * @param {String} unformatedValue An unformated string containing the full or partial CPF
 	 * @returns The formatted CPF
 	 */
-	toPhone = (unformatedValue) => {
+	static toPhone = (unformatedValue) => {
 		return unformatedValue
 			.replace(/\D/g, "")
 			.replace(/(\d{2})(\d)/, "($1) $2")
@@ -48,8 +48,9 @@ class ApplyMask {
 	 * @param {String} unformatedValue An unformated string containing the full or partial CPF
 	 * @returns The formatted CPF
 	 */
-	toCEP = (unformatedValue) => {
-		return unformatedValue.replace(/\D/g, "").replace(/^(\d{5})(\d{3})+?$/, "$1-$2");
+	static toCEP = (unformatedValue) => {
+		return unformatedValue.replace(/\D/g, "")
+							  .replace(/^(\d{5})(\d{3})+?$/, "$1-$2");
 	};
 
 	/**
@@ -57,7 +58,7 @@ class ApplyMask {
 	 * @param {String} unformatedValue An unformated string containing the full or partial Date
 	 * @returns The formatted Date
 	 */
-	toDate = (unformatedValue) => {
+	static toDate = (unformatedValue) => {
 		return unformatedValue
 			.replace(/\D/g, "")
 			.replace(/(\d{2})(\d)/, "$1/$2")
@@ -70,7 +71,7 @@ class ApplyMask {
 	 * @param {String} unformatedValue An unformated string
 	 * @returns Only the letters contained in the unformatted string
 	 */
-	toOnlyLetters = (unformatedValue) => {
+	static charactersOnly = (unformatedValue) => {
 		return unformatedValue.replace(/[0-9!@#¨$%^&*)(+=._-]+/g, "");
 	};
 
@@ -79,7 +80,7 @@ class ApplyMask {
 	 * @param {String} unformatedValue An unformated string
 	 * @returns Only the numbers contained in the unformatted string
 	 */
-	toOnlyNumbers = (unformatedValue) => {
+	static numbersOnly = (unformatedValue) => {
 		return unformatedValue.replace(/\D/g, "");
 	};
 }
