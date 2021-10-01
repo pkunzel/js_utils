@@ -1,5 +1,5 @@
 /**
- * @classdesc Contains a list of ready to use static masking functions
+ * @class Contains a list of ready to use static masking functions
  */
 class ApplyMask {
 	/**
@@ -85,6 +85,9 @@ class ApplyMask {
 	};
 }
 
+/**
+ * @class Adds the events for the masks
+ */
 class CustomMask {
 	constructor() {
 		const elementsToMask = Array.from(document.querySelectorAll("[data-custom-mask]"));
@@ -95,19 +98,36 @@ class CustomMask {
 		});
 	}
 
+	/**
+	 * @description Object mapping all data-custom-mask values to their formatting functions
+	 */
 	#maskingActions = {
-		cpf: (element) => applyMaskingEvents(element, ApplyMask.toCPF),
-		cnpj: (element) => applyMaskingEvents(element, ApplyMask.toCNPJ),
+		cpf: (element) => this.applyMaskingEvents(element, ApplyMask.toCPF),
+		cnpj: (element) => this.applyMaskingEvents(element, ApplyMask.toCNPJ),
+		phone: (element) => this.applyMaskingEvents(element, ApplyMask.toPhone),
+		cep: (element) => this.applyMaskingEvents(element, ApplyMask.toCEP),
+		date: (element) => this.applyMaskingEvents(element, ApplyMask.toDate),
+		numbers: (element) => this.applyMaskingEvents(element, ApplyMask.numbersOnly),
+		characters: (element) => this.applyMaskingEvents(element, ApplyMask.charactersOnly)
 	};
 
+	/**
+	 * @description Applies all the appropriate event to keep the defined mask
+	 * @param {HTMLElement} element The Elememnt/Tag to be masked
+	 * @param {Function} maskFunction The masking function
+	 */
 	applyMaskingEvents(element, maskFunction) {
-		const elementStringContainer = element.value ? "value" : "textcontent";
+		const elementStringContainer = element.value != undefined ? "value" : "textcontent";
 		setElementWithMask(elementStringContainer);
 		element.addEventListener("change", setElementWithMask);
-		element.addEventListener("keypress", setElementWithMask);
+		element.addEventListener("keyup", setElementWithMask);
 
-		function setElementWithMask(elementStringContainer) {
-			element[elementStringContainer] = maskFunction(element[elementStringContainer]);
+		function setElementWithMask() {
+			const elementValue = element[elementStringContainer]
+			element[elementStringContainer] = maskFunction(elementValue);
 		}
 	}
 }
+
+
+window.addEventListener('load', (e) => new CustomMask());
