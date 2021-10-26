@@ -8,7 +8,8 @@ class ApplyMask {
 	 * @returns The formatted CPF
 	 */
 	static toCPF = (unformatedValue) => {
-		return unformatedValue
+		const extractedNumbers = this.numbersOnly(unformatedValue);
+		return extractedNumbers
 			.replace(/(\d{3})(\d)/, "$1.$2")
 			.replace(/(\d{3})(\d)/, "$1.$2")
 			.replace(/(\d{3})(\d{1,2})/, "$1-$2")
@@ -21,8 +22,8 @@ class ApplyMask {
 	 * @returns The formatted CNPJ
 	 */
 	static toCNPJ = (unformatedValue) => {
-		return unformatedValue
-			.replace(/\D/g, "")
+		const extractedNumbers = this.numbersOnly(unformatedValue);
+		return extractedNumbers
 			.replace(/(\d{2})(\d)/, "$1.$2")
 			.replace(/(\d{3})(\d)/, "$1.$2")
 			.replace(/(\d{3})(\d)/, "$1/$2")
@@ -36,8 +37,8 @@ class ApplyMask {
 	 * @returns The formatted CPF
 	 */
 	static toPhone = (unformatedValue) => {
-		return unformatedValue
-			.replace(/\D/g, "")
+		const extractedNumbers = this.numbersOnly(unformatedValue);
+		return extractedNumbers
 			.replace(/(\d{2})(\d)/, "($1) $2")
 			.replace(/(\d{5})(\d{4})(\d)/, "$1-$2")
 			.replace(/(-\d{4})\d+?$/, "$1");
@@ -49,9 +50,9 @@ class ApplyMask {
 	 * @returns The formatted CPF
 	 */
 	static toCEP = (unformatedValue) => {
-		return unformatedValue.replace(/\D/g, "")
-							  .replace(/(\d{5})(\d{3})/, "$1-$2")
-							  .replace(/(-\d{3})\d+?$/, "$1");
+		const extractedNumbers = this.numbersOnly(unformatedValue);
+		return extractedNumbers.replace(/(\d{5})(\d{3})/, "$1-$2")
+							   .replace(/(-\d{3})\d+?$/, "$1");
 	};
 
 	/**
@@ -60,11 +61,12 @@ class ApplyMask {
 	 * @returns The formatted Date
 	 */
 	static toDate = (unformatedValue) => {
-		return unformatedValue
-			.replace(/\D/g, "")
+		const extractedNumbers = this.numbersOnly(unformatedValue);
+		return extractedNumbers
 			.replace(/(\d{2})(\d)/, "$1/$2")
 			.replace(/(\d{2})(\d)/, "$1/$2")
-			.replace(/(\d{4})(\d)/, "$1");
+			.replace(/(\d{4})(\d)/, "$1")
+			.replace(/(-\d{4})\d+?$/, "$1");;
 	};
 
 	/**
@@ -127,10 +129,11 @@ class CustomMask {
 	 * @param {HTMLElement} element The Elememnt/Tag to be masked
 	 * @param {Function} maskFunction The masking function
 	 */
-	applyMaskingEvents(element, maskFunction, checkFunction) {
+	applyMaskingEvents(element, maskFunction) {
 		const elementStringContainer = element.value != undefined ? "value" : "textcontent";
 		setElementWithMask(elementStringContainer);
 		element.addEventListener("change", setElementWithMask);
+		element.addEventListener("keydown", setElementWithMask);
 		element.addEventListener("keyup", setElementWithMask);
 
 		function setElementWithMask() {
