@@ -9,7 +9,6 @@ class ApplyMask {
 	 */
 	static toCPF = (unformatedValue) => {
 		return unformatedValue
-			.replace(/\D/g, "")
 			.replace(/(\d{3})(\d)/, "$1.$2")
 			.replace(/(\d{3})(\d)/, "$1.$2")
 			.replace(/(\d{3})(\d{1,2})/, "$1-$2")
@@ -28,7 +27,7 @@ class ApplyMask {
 			.replace(/(\d{3})(\d)/, "$1.$2")
 			.replace(/(\d{3})(\d)/, "$1/$2")
 			.replace(/(\d{4})(\d{1,2})/, "$1-$2")
-			.replace(/(-\d{2})\d+?$/, "$1");
+			.replace(/(-\d{1})\d+?$/, "$1");
 	};
 
 	/**
@@ -40,7 +39,8 @@ class ApplyMask {
 		return unformatedValue
 			.replace(/\D/g, "")
 			.replace(/(\d{2})(\d)/, "($1) $2")
-			.replace(/(\d{5})(\d{4})(\d)/, "$1-$2");
+			.replace(/(\d{5})(\d{4})(\d)/, "$1-$2")
+			.replace(/(-\d{4})\d+?$/, "$1");
 	};
 
 	/**
@@ -50,7 +50,8 @@ class ApplyMask {
 	 */
 	static toCEP = (unformatedValue) => {
 		return unformatedValue.replace(/\D/g, "")
-							  .replace(/^(\d{5})(\d{3})+?$/, "$1-$2");
+							  .replace(/(\d{5})(\d{3})/, "$1-$2")
+							  .replace(/(-\d{3})\d+?$/, "$1");
 	};
 
 	/**
@@ -67,11 +68,20 @@ class ApplyMask {
 	};
 
 	/**
+	 * @description Filters out all numbers
+	 * @param {String} unformatedValue An unformated string
+	 * @returns Only the letters and special characters contained in the unformatted string
+	 */
+	static charactersOnly = (unformatedValue) => {
+		return unformatedValue.replace(/[0-9]+/g, "");
+	}
+
+	/**
 	 * @description Filters out all but the letters
 	 * @param {String} unformatedValue An unformated string
 	 * @returns Only the letters contained in the unformatted string
 	 */
-	static charactersOnly = (unformatedValue) => {
+	static nonSpecialCharactersOnly = (unformatedValue) => {
 		return unformatedValue.replace(/[0-9!@#¨$%^&*)(+=._-]+/g, "");
 	};
 
@@ -102,13 +112,14 @@ class CustomMask {
 	 * @description Object mapping all data-custom-mask values to their formatting functions
 	 */
 	#maskingActions = {
-		cpf: (element) => this.applyMaskingEvents(element, ApplyMask.toCPF),
-		cnpj: (element) => this.applyMaskingEvents(element, ApplyMask.toCNPJ),
-		phone: (element) => this.applyMaskingEvents(element, ApplyMask.toPhone),
-		cep: (element) => this.applyMaskingEvents(element, ApplyMask.toCEP),
-		date: (element) => this.applyMaskingEvents(element, ApplyMask.toDate),
-		numbers: (element) => this.applyMaskingEvents(element, ApplyMask.numbersOnly),
-		characters: (element) => this.applyMaskingEvents(element, ApplyMask.charactersOnly)
+		"cpf": (element) => this.applyMaskingEvents(element, ApplyMask.toCPF),
+		"cnpj": (element) => this.applyMaskingEvents(element, ApplyMask.toCNPJ),
+		"phone": (element) => this.applyMaskingEvents(element, ApplyMask.toPhone),
+		"cep": (element) => this.applyMaskingEvents(element, ApplyMask.toCEP),
+		"date": (element) => this.applyMaskingEvents(element, ApplyMask.toDate),
+		"numbers": (element) => this.applyMaskingEvents(element, ApplyMask.numbersOnly),
+		"characters": (element) => this.applyMaskingEvents(element, ApplyMask.charactersOnly),
+		"non-special-characters": (element) => this.applyMaskingEvents(element, ApplyMask.charactersOnly),
 	};
 
 	/**
@@ -116,7 +127,7 @@ class CustomMask {
 	 * @param {HTMLElement} element The Elememnt/Tag to be masked
 	 * @param {Function} maskFunction The masking function
 	 */
-	applyMaskingEvents(element, maskFunction) {
+	applyMaskingEvents(element, maskFunction, checkFunction) {
 		const elementStringContainer = element.value != undefined ? "value" : "textcontent";
 		setElementWithMask(elementStringContainer);
 		element.addEventListener("change", setElementWithMask);
@@ -128,6 +139,5 @@ class CustomMask {
 		}
 	}
 }
-
 
 window.addEventListener('load', (e) => new CustomMask());
