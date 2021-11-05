@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @description Create a new element with the information provided
  * @param {String} type The tag type (div, p, a, span, etc..)
@@ -5,14 +7,14 @@
  * @param {Array[Object]} attributes An Array with objects containing the properties name and value. Both are Strings.
  * @returns {HTMLElement} A plain HTMLElement with the de data provided.
  */
-function createNewElement(type, classes, attributes){
-    let element = document.createElement(type);
+function createNewElement(type, classes, attributes) {
+	let element = document.createElement(type);
 
-    element.classList.add(classes);
+	element.classList.add(classes);
 
-    addMultipleAttributes(element, attributes);
+	addMultipleAttributes(element, attributes);
 
-    return element;
+	return element;
 }
 
 /**
@@ -22,14 +24,14 @@ function createNewElement(type, classes, attributes){
  * @param {String} newId (Optional) A new Id for the element. Deafults to none or old id + _1.
  * @returns {HTMLElement} A clone of HTMLElement.
  */
-function cloneElement(element, cloneDescendants, newId){
-    let newElement = element.cloneNode(cloneDescendants);
+function cloneElement(element, cloneDescendants, newId) {
+	let newElement = element.cloneNode(cloneDescendants);
 
-    if(newElement.id || newId){
-        newElement.id = newId ? newId : newElement.id + "_1";
-    }
+	if (newElement.id || newId) {
+		newElement.id = newId ? newId : newElement.id + "_1";
+	}
 
-    return newElement;
+	return newElement;
 }
 
 /**
@@ -38,10 +40,10 @@ function cloneElement(element, cloneDescendants, newId){
  * @param {Array[String]|String} classes An Array of classes to be added to the element
  * @returns {HTMLElement} A plain resulting HTMLElement
  */
-function addMultipleAttributes(element, attributes){
-    if(attributes){
-        attributes.forEach(item => element.setAttribute(item.name, item.value));
-    }
+function addMultipleAttributes(element, attributes) {
+	if (attributes) {
+		attributes.forEach(item => element.setAttribute(item.name, item.value));
+	}
 }
 
 /**
@@ -50,9 +52,9 @@ function addMultipleAttributes(element, attributes){
  * @param {Array[String]} classes An Array of classes to be added to the element
  * @returns {HTMLElement} A plain resulting HTMLElement
  */
-function addMultipleEvents(element, events){
-    if(events){
-        events.forEach(item => element.addEventListener(item.name, item.function));
-    }
+function addMultipleEvents(element, events) {
+	if (events) {
+		events.forEach(item => element.addEventListener(item.name, item.function));
+	}
 }
 

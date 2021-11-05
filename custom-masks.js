@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @class Contains a list of ready to use static masking functions
  */
@@ -52,7 +54,7 @@ class ApplyMask {
 	static toCEP = (unformatedValue) => {
 		const extractedNumbers = this.numbersOnly(unformatedValue);
 		return extractedNumbers.replace(/(\d{5})(\d{3})/, "$1-$2")
-							   .replace(/(-\d{3})\d+?$/, "$1");
+			.replace(/(-\d{3})\d+?$/, "$1");
 	};
 
 	/**
